@@ -31,7 +31,6 @@ const dataState = reactive({
   loader: 1
 })
 
-// ==================== Инициализация ====================
 onMounted(() => {
   dataState.parent = parent
 
@@ -46,7 +45,6 @@ onMounted(() => {
   get()
 })
 
-// ==================== Функции ====================
 function GetFirstAndLastDate() {
   const now = new Date()
   const firstDayOfMonth = new Date(now.getFullYear(), now.getMonth(), 2)
@@ -121,7 +119,6 @@ async function del() {
     })
 }
 
-// ==================== Статистика ====================
 function actionStatistic() {
   const data = parent.toFormData(parent.state.formData)
   data.append('id', route.params.id)
@@ -135,7 +132,6 @@ function actionStatistic() {
     .catch(err => console.log(err))
 }
 
-// ==================== Платежи ====================
 function actionPayment() {
   const data = parent.toFormData(parent.state.formData)
   data.append('uid', route.params.id)
@@ -165,7 +161,6 @@ async function delPayment() {
     })
 }
 
-// ==================== Сайты ====================
 function actionSite() {
   const data = parent.toFormData(parent.state.formData)
   proxy.$axios.post(`${parent.state.url}/site/actionSite?auth=${parent.state.user.auth}`, data)
@@ -224,8 +219,6 @@ function lineChart(item) {
   <div class="inside-content">
     <Header ref="header" />
     <div id="spinner" v-if="dataState.loader"></div>
-
-    <!-- Верхняя панель -->
     <div class="panelTop">
       <div class="wrapper">
         <div class="flex">
@@ -257,7 +250,6 @@ function lineChart(item) {
       </div>
     </div>
 
-    <!-- Попап редактирования пользователя -->
     <Popup ref="newPopup" :title="(parent.state.formData?.id) ? 'Edit user' : 'New user'">
       <div class="form inner-form">
         <form @submit.prevent="action" v-if="parent.state.formData">
@@ -285,7 +277,6 @@ function lineChart(item) {
       </div>
     </Popup>
 
-    <!-- Вкладка: Sites -->
     <div v-if="dataState.tab === 1" class="wrapper">
       <div class="flex panel">
         <div class="date-range">
@@ -298,7 +289,6 @@ function lineChart(item) {
         </div>
       </div>
 
-      <!-- Попап графика -->
       <Popup ref="chartPopup" :fullscreen="true" title="Chart">
         <div class="flex panel">
           <div class="w70 al">
@@ -343,7 +333,6 @@ function lineChart(item) {
         </div>
       </Popup>
 
-      <!-- Таблица сайтов -->
       <div class="table" v-if="dataState.data.sites?.length">
         <table>
           <thead>
@@ -383,7 +372,6 @@ function lineChart(item) {
       <div class="empty" v-else>No items</div>
     </div>
 
-    <!-- Вкладка: Payments -->
     <div v-if="dataState.tab === 0" class="wrapper">
       <div class="flex panel">
         <div class="w20 al ptb15">
@@ -420,7 +408,6 @@ function lineChart(item) {
         </div>
       </Popup>
 
-      <!-- Таблица платежей -->
       <div class="table" v-if="dataState.data.payments?.length">
         <table>
           <thead>
@@ -461,7 +448,6 @@ function lineChart(item) {
       <div class="empty" v-else>No items</div>
     </div>
 
-    <!-- Вкладка: Statistics -->
     <div v-if="dataState.tab === 2" class="wrapper">
       <div class="flex panel">
         <div class="date-range">
@@ -480,7 +466,6 @@ function lineChart(item) {
         </div>
       </Popup>
 
-      <!-- Таблица статистики -->
       <div class="table" v-if="dataState.data.statistics?.length">
         <table>
           <thead>
@@ -525,4 +510,5 @@ function lineChart(item) {
     </div>
   </div>
 </template>
+
 
