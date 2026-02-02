@@ -21,7 +21,6 @@ const dataState = reactive({
   uid: -1
 })
 
-// ==================== функции для шаблона ====================
 const openNew = () => {
   parent.state.formData = {}
   newPopup.value.active = 1
@@ -38,7 +37,6 @@ const togglePublish = (item) => {
   action()
 }
 
-// Получение данных пользователей
 const get = () => {
   const data = parent.toFormData(parent.state.formData)
   if (dataState.type !== "") data.append('type', dataState.type)
@@ -64,7 +62,6 @@ const get = () => {
     })
 }
 
-// Добавление/редактирование пользователя
 const action = () => {
   const data = parent.toFormData(parent.state.formData)
   proxy.$axios.post(`${parent.state.url}/site/actionUser?auth=${parent.state.user.auth}`, data)
@@ -84,7 +81,6 @@ const action = () => {
     .catch(err => console.log(err))
 }
 
-// Удаление пользователя
 const del = async (item = null) => {
   if (item) parent.state.formData = { ...item }
 
@@ -106,7 +102,6 @@ const del = async (item = null) => {
   }
 }
 
-// Копирование текста
 const copyText = async (text) => {
   if (navigator && navigator.clipboard) {
     await navigator.clipboard.writeText(text)
@@ -118,7 +113,6 @@ const copyText = async (text) => {
   }
 }
 
-// ==================== Инициализация ====================
 onMounted(() => {
   dataState.parent = parent
   if (!parent.state.user) parent.logout?.()
@@ -150,7 +144,6 @@ onMounted(() => {
         </div>
       </div>
 
-      <!-- Popup: New/Edit User -->
       <Popup ref="newPopup" :title="parent.state.formData?.id ? 'Edit user' : 'New user'">
         <div class="form inner-form">
           <form @submit.prevent="action()" v-if="parent.state.formData">
@@ -178,7 +171,6 @@ onMounted(() => {
         </div>
       </Popup>
 
-      <!-- Popup: Copy Banner -->
       <Popup ref="copyPopup" title="Copy banner">
         <div class="form inner-form">
           <form v-if="parent.state.formData">
@@ -200,7 +192,6 @@ onMounted(() => {
         </div>
       </Popup>
 
-      <!-- Users Table -->
       <div class="table" v-if="!dataState.loader && dataState.data.items && dataState.data.items.length">
         <table>
           <thead>
@@ -245,4 +236,5 @@ onMounted(() => {
       </div>
     </div>
   </div>
+
 </template>
